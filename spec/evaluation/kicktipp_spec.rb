@@ -78,12 +78,42 @@ describe Evaluation::Kicktipp do
 
 		end
 
-		
+		context "when game result is away team victory" do
 
-		it "returns 4 points for exact result if away team wins" do
-			results = { home_goals: 1, away_goals: 2}
-			evaluation = Evaluation::Kicktipp.new results, results.clone
-			evaluation.evaluate.should eql 4
+			it "returns 4 points for exact result" do
+				results = { home_goals: 0, away_goals: 1}
+				evaluation = Evaluation::Kicktipp.new results, results.clone
+				evaluation.evaluate.should eql 4
+			end
+
+			it "returns 3 points for correct goal difference of prediction" do
+				prediction = { home_goals: 3, away_goals: 4 }
+				reality    = { home_goals: 0, away_goals: 1 }
+				evaluation = Evaluation::Kicktipp.new prediction, reality
+				evaluation.evaluate.should eql 3
+			end
+
+			it "returns 2 points for correctly predicting the winning team" do
+				prediction = { home_goals: 0, away_goals: 5 }
+				reality    = { home_goals: 0, away_goals: 1 }
+				evaluation = Evaluation::Kicktipp.new prediction, reality
+				evaluation.evaluate.should eql 2
+			end
+
+			it "returns 0 points if prediction was a draw" do
+				prediction = { home_goals: 2, away_goals: 2 }
+				reality    = { home_goals: 0, away_goals: 1 }
+				evaluation = Evaluation::Kicktipp.new prediction, reality
+				evaluation.evaluate.should eql 0
+			end
+
+			it "returns 0 points if prediction was a home team victory" do
+				prediction = { home_goals: 2, away_goals: 0 }
+				reality    = { home_goals: 0, away_goals: 1 }
+				evaluation = Evaluation::Kicktipp.new prediction, reality
+				evaluation.evaluate.should eql 0
+			end
+
 		end
 
 	end
