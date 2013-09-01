@@ -17,8 +17,27 @@ describe Evaluation::Kicktipp do
 
 	describe "#evaluate" do
 
-		it "returns 4 points for exact result on remis" do
-			@evaluation.evaluate.should eql 4
+		context "game result is draw" do
+
+			it "returns 4 points for exact result" do
+				@evaluation.evaluate.should eql 4
+			end
+
+			it "returns 3 points if prediction was a remis" do
+				@evaluation.prediction = { home_goals: 2, away_goals: 2 }
+				@evaluation.evaluate.should eql 3
+			end
+
+			it "returns 0 points if prediction was home team win" do
+				@evaluation.prediction = { home_goals: 3, away_goals: 2 }
+				@evaluation.evaluate.should eql 0
+			end
+
+			it "returns 0 points if prediction was away team win" do
+				@evaluation.prediction = { home_goals: 1, away_goals: 4 }
+				@evaluation.evaluate.should eql 0
+			end
+
 		end
 
 		it "returns 4 points for exact result if home team wins" do
@@ -41,8 +60,8 @@ describe Evaluation::Kicktipp do
 			reality = 	 { home_goals: 1, away_goals: 2 }
 			evaluation = Evaluation::Kicktipp.new prediction, reality
 			differences = evaluation.calc_goal_differences
-			differences.first.should be 0
-			differences.last.should be -1
+			differences.first.should eql 0
+			differences.last.should eql -1
 		end
 	end
 
