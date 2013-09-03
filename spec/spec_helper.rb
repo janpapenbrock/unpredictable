@@ -1,4 +1,4 @@
 require 'coveralls'
 Coveralls.wear!
 
-require_relative "../evaluation/kicktipp"
+require_relative "../lib/unpredictable/evaluation/kicktipp"
