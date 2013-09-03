@@ -1,4 +1,4 @@
-module Prediction
+module PredictionFactory
 	class PreviousMatch
 	end
 end
