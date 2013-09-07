@@ -4,9 +4,18 @@ describe PredictionFactory::PreviousMatch do
 
 	before :each do 
 		@factory = PredictionFactory::PreviousMatch.new
-		@match = Match.new
-		@team1_matches = [ Match.new, @match ]
-		@team2_matches = [ Match.new, @match ]
+		@team1 = double("team")
+		@team2 = double("team")
+		@team3 = double("team")
+		@match  = double("match", home_team: @team1, away_team: @team2)
+		@match2 = @match.clone
+		@match3 = double("match", home_team: @team1, away_team: @team3)
+		[@match, @match2, @match3].each do |match|
+			allow(match).to receive(:goals_by).and_return 0
+		end
+		{ @team1 => @match2, @team2 => @match2, @team3 => nil}.each_pair do |team, match|
+			allow(team).to receive(:match_before).and_return(match)
+		end
 	end
 
 	describe "#predict" do
@@ -15,27 +24,26 @@ describe PredictionFactory::PreviousMatch do
 			lambda { @factory.predict() }.should raise_exception ArgumentError
 		end
 
-		it "throws an ArgumentError if first parameter is not a match instance" do
-			lambda { @factory.predict( [] ) }.should raise_exception ArgumentError
-		end
-
 		context "given a valid match with previous matches for both teams" do
-
 			it "returns a prediction" do
-				@factory.predict.should be_instance_of Prediction
+				@factory.predict(@match).should be_instance_of Prediction
 			end
-
 		end
 
 		context "given a match without previous matches for both teams" do
-
 			it "returns nil" do
-				@factory.predict.should be_nil
+				@factory.predict(@match3).should be_nil
 			end
-
 		end
 
+	end
 
+	it "can predict a complete match" do
+		@factory.can_predict_match?(@match).should be_true
+	end
+
+	it "cannot predict an incomplete match" do
+		@factory.can_predict_match?(@match3).should be_false
 	end
 	
 end
