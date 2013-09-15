@@ -3,7 +3,9 @@ require "spec_helper"
 describe Match do
 	
 	before :each do
-		@match = Match.new({ home_goals: 2})
+		@home_team = double("team")
+		@away_team = double("team")
+		@match = Match.new({ home_goals: 2, away_goals: 1, home_team: @home_team, away_team: @away_team })
 	end
 
 	describe "#new" do
@@ -13,6 +15,15 @@ describe Match do
 			match.data[:home_goals].should be_true
 		end
 
+	end
+
+	it "should return the goals for a team" do
+		@match.goals_by(@away_team).should eql 1
+	end
+
+	it "shoul return nil if the team did not play the match" do
+		team = double("team")
+		@match.goals_by(team).should be_nil
 	end
 
 	it "returns a property in its data as a method result" do
