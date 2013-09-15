@@ -10,4 +10,8 @@ class Prediction
 		@prediction_factory = prediction_factory
 	end
 
+	def method_missing name
+		return @prediction_data[name] if @prediction_data.key? name
+	end
+
 end

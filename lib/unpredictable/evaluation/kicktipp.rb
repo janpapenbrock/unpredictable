@@ -18,7 +18,7 @@ module Evaluation
 
 		def predicted_result?
 			[:home_goals, :away_goals].each do |property|
-				return false unless @prediction[property] == @reality[property]
+				return false unless @prediction.send(property) == @reality.send(property)
 			end
 			true
 		end
@@ -37,7 +37,7 @@ module Evaluation
 		end
 
 		def calc_goal_differences
-			[@prediction, @reality].collect{|result| result[:home_goals] - result[:away_goals]}
+			[@prediction, @reality].collect{|result| result.send(:home_goals) - result.send(:away_goals)}
 		end
 
 	end

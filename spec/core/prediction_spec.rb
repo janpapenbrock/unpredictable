@@ -5,7 +5,7 @@ describe Prediction do
 	before :each do
 		@prediction_factory = double("prediction_factory", :predict => true)
 		@match = double("match")
-		@prediction = Prediction.new @match,{}, @prediction_factory
+		@prediction = Prediction.new @match, { home_goals: 23 }, @prediction_factory
 	end
 
 	describe "#new" do
@@ -26,6 +26,10 @@ describe Prediction do
 			prediction.prediction_data.should == {}
 		end
 
+	end
+
+	it "returns a property in its data as a method result" do
+		@prediction.home_goals.should eql 23
 	end
 
 end

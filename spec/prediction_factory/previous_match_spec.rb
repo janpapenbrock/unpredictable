@@ -10,10 +10,13 @@ describe PredictionFactory::PreviousMatch do
 		@match  = double("match", home_team: @team1, away_team: @team2)
 		@match2 = @match.clone
 		@match3 = double("match", home_team: @team1, away_team: @team3)
-		[@match, @match2, @match3].each do |match|
-			allow(match).to receive(:goals_by).and_return 0
+
+		[@match, @match2].each do |match|
+			allow(match).to receive(:goals_by).and_return 1
 		end
-		{ @team1 => @match2, @team2 => @match2, @team3 => nil}.each_pair do |team, match|
+		allow(@match3).to receive(:goals_by).and_return 2
+
+		{ @team1 => @match2, @team2 => @match3, @team3 => nil}.each_pair do |team, match|
 			allow(team).to receive(:match_before).and_return(match)
 		end
 	end
@@ -36,6 +39,14 @@ describe PredictionFactory::PreviousMatch do
 			end
 		end
 
+	end
+
+	describe "#calculate_prediction" do
+		it "calculates the correct prediction" do
+			prediction = @factory.calculate_prediction @match
+			prediction.prediction_data[:home_goals].should eql 1
+			prediction.prediction_data[:away_goals].should eql 2
+		end
 	end
 
 	it "can predict a complete match" do
