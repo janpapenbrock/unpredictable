@@ -1,2 +1,9 @@
 require "autotest/bundler"
 require "autotest/snarl"
+
+Autotest.add_hook(:initialize) {|at|
+  at.add_exception %r{^./.git}  	# ignore Version Control System
+  at.add_exception %r{^./coverage}  # ignore coveralls files
+
+  nil
+}
