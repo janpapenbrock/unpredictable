@@ -32,4 +32,8 @@ describe Prediction do
 		@prediction.home_goals.should eql 23
 	end
 
+	it "raises a NoMethodError if a non-existing data key is requested" do
+		lambda { @prediction.some_undefined_key }.should raise_exception NoMethodError
+	end
+
 end

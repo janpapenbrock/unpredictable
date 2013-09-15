@@ -12,6 +12,7 @@ class Prediction
 
 	def method_missing name
 		return @prediction_data[name] if @prediction_data.key? name
+		raise NoMethodError
 	end
 
 end
