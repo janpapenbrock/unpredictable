@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
 gem 'coveralls', require: false
-gem 'rspec'
-gem 'rspec-mocks'
+
+group :test do
+	gem 'rspec'
+	gem 'rspec-mocks'
+	gem 'ZenTest'
+	gem 'autotest-snarl'
+end
