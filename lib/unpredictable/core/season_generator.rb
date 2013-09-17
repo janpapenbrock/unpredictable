@@ -48,17 +48,7 @@ class SeasonGenerator
 				pairings -= match_teams
 
 				(0..1).each do |team_index|
-					home_goals = [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 5].sample
-					away_goals = [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 5].sample
-					
-					match = Match.new({
-						date: date,
-						matchday: playday,
-						home_team: match_teams[team_index],
-						away_team: match_teams[1-team_index],
-						home_goals: home_goals,
-						away_goals: away_goals
-					})
+					match = create_match match_teams[team_index], match_teams[team_index-1], date, playday
 					@matches << match
 					match_teams.each do |team|
 						team.add_match match
@@ -69,5 +59,21 @@ class SeasonGenerator
 
 		@matches
 	end
+
+	def create_match home_team, away_team, date, matchday
+		home_goals = [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 5].sample
+		away_goals = [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 5].sample
+		
+		match = Match.new({
+			date: date,
+			matchday: matchday,
+			home_team: home_team,
+			away_team: away_team,
+			home_goals: home_goals,
+			away_goals: away_goals
+		})
+		
+		match			
+	end	
 
 end

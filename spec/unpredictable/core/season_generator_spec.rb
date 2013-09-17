@@ -61,4 +61,14 @@ describe SeasonGenerator do
 
 	end
 
+	describe "#create_match" do
+		it "creates a match" do
+			home_team = double(:team)
+			away_team = double(:team)
+			date = Time.now
+			matchday = 1
+			@generator.create_match home_team, away_team, date, matchday
+		end
+	end
+
 end
