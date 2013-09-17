@@ -17,13 +17,17 @@ describe Match do
 
 	end
 
-	it "should return the goals for a team" do
-		@match.goals_by(@away_team).should eql 1
-	end
+	describe "#goals_by" do
 
-	it "shoul return nil if the team did not play the match" do
-		team = double("team")
-		@match.goals_by(team).should be_nil
+		it "should return the goals for a team" do
+			@match.goals_by(@away_team).should eql 1
+		end
+
+		it "should return nil if the team did not play the match" do
+			team = double("team")
+			@match.goals_by(team).should be_nil
+		end
+
 	end
 
 	it "returns a property in its data as a method result" do
