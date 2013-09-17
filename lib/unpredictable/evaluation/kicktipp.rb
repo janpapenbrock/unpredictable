@@ -2,11 +2,11 @@ module Evaluation
 
 	class Kicktipp
 
-		attr_accessor :prediction, :reality
+		attr_accessor :prediction, :match
 
-		def initialize prediction, reality
+		def initialize prediction, match
 			@prediction = prediction
-			@reality = reality
+			@match = match
 		end
 
 		def evaluate
@@ -18,7 +18,7 @@ module Evaluation
 
 		def predicted_result?
 			[:home_goals, :away_goals].each do |property|
-				return false unless @prediction.send(property) == @reality.send(property)
+				return false unless @prediction.send(property) == @match.send(property)
 			end
 			true
 		end
@@ -37,7 +37,7 @@ module Evaluation
 		end
 
 		def calc_goal_differences
-			[@prediction, @reality].collect{|result| result.send(:home_goals) - result.send(:away_goals)}
+			[@prediction, @match].collect{|result| result.send(:home_goals) - result.send(:away_goals)}
 		end
 
 	end
