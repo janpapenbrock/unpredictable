@@ -13,7 +13,8 @@ Check ```run.rb``` for a sample execution strategy.
 Contribute
 ----------
 
-New prediction models would be great! Start by checking out lib/unpredictable/code/prediction_factory/previous_match.rb.
+New prediction models would be great! Start by checking out [lib/unpredictable/prediction_factory/previous_match.rb](https://github.com/janpapenbrock/unpredictable/blob/master/lib/unpredictable/prediction_factory/previous_match.rb).
+
 
 Credits
 -------
