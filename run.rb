@@ -2,7 +2,7 @@
 
 require_relative "lib/unpredictable/unpredictable.rb"
 
-matches = MatchImporter.new("bl1", 2012).matches
+matches = MatchImporter.new("bl1", 2010).matches
 
 evaluator = Evaluation::Kicktipp
 predictors = [ 
