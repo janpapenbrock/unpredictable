@@ -5,7 +5,11 @@ require_relative "lib/unpredictable/unpredictable.rb"
 matches = MatchImporter.new("bl1", 2012).matches
 
 evaluator = Evaluation::Kicktipp
-predictors = [ PredictionFactory::PreviousMatch.new ]
+predictors = [ 
+	PredictionFactory::PreviousMatch.new, 
+	PredictionFactory::NaiveHomeWin.new, 
+	PredictionFactory::NaiveAwayWin.new
+]
 
 scores = predictors.collect do |predictor|
 	predictions = matches.collect do |match|
