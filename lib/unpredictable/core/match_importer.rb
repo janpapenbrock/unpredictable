@@ -1,3 +1,4 @@
+require 'cgi'
 require 'json'
 require 'open-uri'
 
@@ -49,19 +50,25 @@ class MatchImporter
 		return [] unless matches_json.key? "matchdata"
 		matches_json["matchdata"].collect do |match_data|
 			match_attributes = {
-				time: Time.parse(match_data["match_date_time"])
+				date: Time.parse(match_data["match_date_time"])
 			}
+
+			teams = []
 
 			{ "home" => "1", "away" => "2"}.each_pair do |team_type, index|
 				team_name = match_data["name_team" + index]
-				match_attributes[team_type + "_team"]  = find_team team_name
-				match_attributes[team_type + "_goals"] = match_data["points_team" + index]
+				team = find_team team_name
+				teams << team
+				match_attributes[team_type + "_team"]  = team
+				match_attributes[team_type + "_goals"] = match_data["points_team" + index].to_i
 			end
 
 			match_attributes = Hash[match_attributes.map{|(k,v)| [k.to_sym,v]}]
- 			
 
-			Match.new(match_attributes)
+			match = Match.new(match_attributes)
+
+			teams.each{|team| team.add_match match}
+			match
 		end
 	end
 

@@ -98,13 +98,19 @@ describe MatchImporter do
 		it "should return matches with goals" do
 			match = @importer.fetch_matches.first
 			match.home_goals.should_not be_nil
-			match.away_goals.should_not be_nil
+			match.home_goals.should > -1
+			match.away_goals.should > -1
 		end
 
-		it "should return matches with time" do
+		it "should return matches with date" do
 			match = @importer.fetch_matches.first
-			match.time.should_not be_nil
-			match.time.should be_instance_of Time
+			match.date.should_not be_nil
+			match.date.should be_instance_of Time
+		end
+
+		it "should add matches to teams" do
+			match = @importer.fetch_matches.first
+			match.home_team.matches.count.should > 0
 		end
 
 	end
