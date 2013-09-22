@@ -2,7 +2,7 @@
 
 require_relative "lib/unpredictable/unpredictable.rb"
 
-matches = SeasonGenerator.new(18).matches
+matches = MatchImporter.new("bl1", 2012).matches
 
 predictor = PredictionFactory::PreviousMatch.new
 evaluator = Evaluation::Kicktipp
@@ -14,11 +14,9 @@ end
 predictions.compact!
 
 scores = predictions.collect do |prediction|
-	puts prediction
 	eval = evaluator.new(prediction, prediction.match)
 	score = eval.evaluate 
 
-	puts score
 	score
 end
 
